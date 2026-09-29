@@ -1,0 +1,52 @@
+.admin-expense-form-layout,.admin-expense-editor-layout{gap:var(--admin-space-lg);align-items:start}
+.admin-expense-form,.admin-expense-category-form,.admin-expense-category-sidebar{gap:var(--admin-space-lg);min-width:0;width:100%}
+.admin-expense-category-sidebar>*{min-width:0}
+
+.admin-expense-category-actions{display:flex;justify-content:flex-end;padding:0 var(--admin-space-lg) var(--admin-space-lg)}
+.admin-expense-category-fields,.admin-expense-category-list{gap:var(--admin-space-md)}
+.admin-expense-category-list{display:grid}
+.admin-expense-category-fields>.admin-field{--cw:6;--cw-sm:12}
+.admin-expense-category-fields>.admin-field:last-child{--cw:12}
+.admin-expense-accounting-help{display:grid;gap:var(--admin-space-sm);margin:var(--admin-space-md) 0 0}
+.admin-expense-accounting-help>div{padding-top:var(--admin-space-sm);border-top:1px solid var(--admin-color-border-soft)}
+.admin-expense-accounting-help dt{color:var(--admin-color-primary);font-weight:800}
+.admin-expense-accounting-help dd{margin:2px 0 0;color:var(--admin-color-text-muted);font-size:12px;line-height:1.45}
+.admin-expense-accounting-note,.admin-expense-category-intro{margin:var(--admin-space-md) 0 0;color:var(--admin-color-text-muted);font-size:12px;line-height:1.5}
+.admin-expense-category-intro{margin:0}
+.admin-expense-category-accounting{gap:var(--admin-space-sm);padding:var(--admin-space-md);border:1px solid var(--admin-color-border-soft);border-radius:var(--admin-radius-control)}
+.admin-expense-category-accounting>strong,.admin-expense-category-accounting>small{--cw:12}
+.admin-expense-category-accounting>small{margin-top:calc(var(--admin-space-xs) * -1);color:var(--admin-color-text-muted)}
+.admin-expense-category-accounting>button{--cw:12;justify-self:end} .admin-expense-category-accounting>.admin-field{--cw:6;--cw-sm:12}
+.admin-expense-vat-input{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:var(--admin-space-xs)}
+.admin-expense-vat-input i{color:var(--admin-color-text-muted);font-style:normal;font-weight:700}
+.admin-expense-attachments ul {
+  display: grid;
+  gap: var(--admin-space-sm);
+  padding: 0;
+  margin: 0 0 var(--admin-space-lg);
+  list-style: none;
+}
+.admin-expense-attachments li {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--admin-space-sm);
+  padding: var(--admin-space-sm);
+  border: 1px solid var(--admin-color-border-soft);
+  border-radius: var(--admin-radius-control);
+}
+.admin-expense-attachments li > span { display: grid; gap: 2px; }
+.admin-expense-attachments small { color: var(--admin-color-text-muted); }
+.admin-expense-attachment-actions { display: flex !important; gap: var(--admin-space-xs); }
+.admin-expense-upload-form {
+  align-items: end;
+  gap: var(--admin-space-sm);
+  padding-top: var(--admin-space-md);
+  border-top: 1px solid var(--admin-color-border-soft);
+}
+.admin-expense-upload-form > .admin-field { --cw: 8; --cw-sm: 12; }
+.admin-expense-upload-form > .button { --cw: 4; --cw-sm: 12; }
+@media (max-width: 620px) {
+  .admin-expense-attachments li { grid-template-columns: auto 1fr; }
+  .admin-expense-attachment-actions { grid-column: 1 / -1; }
+}
