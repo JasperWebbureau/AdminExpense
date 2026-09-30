@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Flexgrid\Modules\AdminExpense\Controller;
 
 use Flexgrid\Event\AjaxEvent;
+use Flexgrid\Flexgrid;
 use Flexgrid\Modules\AdminExpense\Application\Command\CreateExpenseCategoryCommand;
 use Flexgrid\Modules\AdminExpense\Application\Command\CreateExpenseCommand;
 use Flexgrid\Modules\AdminExpense\Application\Command\UpdateExpenseCommand;
@@ -24,11 +25,13 @@ final class AdminExpenseController
     public function expenses()
     {
         appendIconAndTitleToHeader('fas fa-receipt','Uitgaven','Administratie');$this->assets();PageResponse::addAsset('Flexgrid/Flexgrid/src/Html/Table/Css/Table.scss');PageResponse::addAsset('Flexgrid/Flexgrid/src/Html/Table/Js/Table.js');PageResponse::addAsset('Flexgrid/Modules/AdminExpense/src/Templates/Expenses/Js/Expenses.js');
+        $this->appendPageActions('overview');
         return new TemplateResponse('Flexgrid/Modules/AdminExpense/src/Templates/Expenses/Index.php',['content'=>(string)$this->renderContent($this->query()),'createUrl'=>$this->url('create')]);
     }
     public function create()
     {
         appendIconAndTitleToHeader('fas fa-circle-plus','Nieuwe uitgave','Administratie');$this->assets(true);
+        $this->appendPageActions('back');
         return new TemplateResponse('Flexgrid/Modules/AdminExpense/src/Templates/Create/Index.php',['storeAction'=>$this->action('store'),'categoryAction'=>$this->action('storeCategory'),'updateCategoryAction'=>$this->action('updateCategoryAccounting'),'overviewUrl'=>$this->url('expenses'),'categories'=>AdminExpenseFactory::createListCategories()->execute(true),'reportingTypes'=>$this->reportingTypes(),'expenseDate'=>date('Y-m-d')]);
     }
     public function store()
@@ -39,6 +42,7 @@ final class AdminExpenseController
     {
         try{$expense=AdminExpenseFactory::createGetExpense()->execute($this->routeArgument($args));}catch(\Throwable$throwable){return$this->expenses();}
         appendIconAndTitleToHeader('fas fa-receipt','Uitgave bewerken','Administratie');$this->assets(true);
+        $this->appendPageActions('back');
         return new TemplateResponse('Flexgrid/Modules/AdminExpense/src/Templates/Editor/Index.php',['content'=>(string)$this->editorContent($expense),'overviewUrl'=>$this->url('expenses')]);
     }
     public function update()
@@ -88,6 +92,13 @@ final class AdminExpenseController
     ];}
     private function streamDownload($download):void{while(ob_get_level()>0){ob_end_clean();}$name=preg_replace('/[^a-zA-Z0-9._-]+/','_',basename(str_replace('\\','/',$download->getFileName())))?:'bewijsstuk';header('Content-Type: '.$download->getMediaType());header('Content-Disposition: attachment; filename="'.$name.'"');header('Content-Length: '.(string)$download->getSize());header('Cache-Control: private, no-store, max-age=0');header('Pragma: no-cache');header('X-Content-Type-Options: nosniff');echo$download->getContent();exit;}
     private function assets(bool$editor=false):void{PageResponse::addAsset('Flexgrid/Flexgrid/src/Html/Admin/Css/AdminUi.scss');if($editor){PageResponse::addAsset('Flexgrid/Modules/AdminExpense/src/Templates/Editor/Css/Editor.scss');PageResponse::addAsset('Flexgrid/Modules/AdminExpense/src/Templates/Editor/Js/Editor.js');}}
+    private function appendPageActions(string $mode): void
+    {
+        Flexgrid::getApp()->appendMainHeader(new TemplateResponse(
+            'Flexgrid/Modules/AdminExpense/src/Templates/HeaderActions.php',
+            ['mode' => $mode, 'createUrl' => $this->url('create'), 'overviewUrl' => $this->url('expenses')]
+        ));
+    }
     private function url(string$path):string{return rtrim(__DOMAIN__,'/').'/Flexgrid/AdminExpense/'.ltrim($path,'/');}
     private function overviewUrl(ExpenseListQuery$query):string{$parameters=array_filter(['q'=>$query->getSearch(),'category'=>$query->getCategoryPublicId(),'year'=>$query->getYear(),'sort'=>$query->getSort(),'direction'=>$query->getDirection(),'page'=>$query->getPage(),'per_page'=>$query->getPerPage()],function($value):bool{return$value!==''&&$value!==null;});return$this->url('expenses').'?'.http_build_query($parameters);}
 }

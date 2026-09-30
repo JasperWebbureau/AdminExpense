@@ -1,6 +1,6 @@
 <?php $h=function($value):string{return htmlspecialchars((string)$value,ENT_QUOTES|ENT_SUBSTITUTE,'UTF-8');};?>
 <section class="admin-page admin-expense-create">
-    <div class="admin-page-header"><div><p class="admin-page-header__eyebrow">Uitgaven</p><h1>Nieuwe uitgave</h1><p class="admin-page-header__intro">Leg het document, de leverancier en de exacte bedragen vast.</p></div><a class="button button-secondary" href="<?=$h($overviewUrl??'')?>"><i class="fas fa-arrow-left"></i> Terug naar overzicht</a></div>
+    <div class="admin-page-header"><div><p class="admin-page-header__eyebrow">Uitgaven</p><h1>Nieuwe uitgave</h1><p class="admin-page-header__intro">Leg het document, de leverancier en de exacte bedragen vast.</p></div></div>
     <?php if($categories===[]){?><div class="notification notification--error">Maak eerst minimaal één uitgavencategorie aan.</div><?php }?>
     <grid class="admin-expense-form-layout">
         <form class="admin-form admin-expense-form" style="--cw:8;--cw-sm:12" ajax="true" action="<?=$h($storeAction??'')?>" method="post">
