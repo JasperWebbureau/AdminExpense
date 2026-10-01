@@ -43,7 +43,7 @@ final class CreateExpense
                 $supplier = $command->getSupplier();
                 $expense = new Expense(
                     $this->ids->generate(), $tenantId, $category->getPublicId(), $currency,
-                    new SupplierSnapshot($this->text($supplier, 'name', true), $this->text($supplier, 'contact_name'), $this->text($supplier, 'email'), $this->text($supplier, 'registration_number'), $this->text($supplier, 'tax_number'), $this->text($supplier, 'country_code', false, 'NL'), $this->text($supplier, 'source_public_id')),
+                    new SupplierSnapshot($this->text($supplier, 'name'), $this->text($supplier, 'contact_name'), $this->text($supplier, 'email'), $this->text($supplier, 'registration_number'), $this->text($supplier, 'tax_number'), $this->text($supplier, 'country_code', false, 'NL'), $this->text($supplier, 'source_public_id')),
                     new ExpenseDate($command->getExpenseDate()), $command->getTitle(),
                     Money::fromDecimal($command->getNetAmount(), $currency), Money::fromDecimal($command->getTaxAmount(), $currency),
                     $command->getDescription(), $command->getReference(), $command->getSource(), $command->getExternalId()

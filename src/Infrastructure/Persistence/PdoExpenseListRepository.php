@@ -38,7 +38,10 @@ final class PdoExpenseListRepository implements ExpenseListRepositoryInterface
         $parts=['e.`tenant_id`=:tenant'];$parameters=[':tenant'=>$tenantId->toString()];
         if($query->getSearch()!==''){$parts[]="CONCAT_WS(' ',e.`title`,COALESCE(e.`description`,''),COALESCE(e.`reference`,''),e.`supplier_snapshot`) LIKE :search";$parameters[':search']='%'.$query->getSearch().'%';}
         if($query->getCategoryPublicId()!==''){$parts[]='e.`category_public_id`=:category';$parameters[':category']=$query->getCategoryPublicId();}
-        if($query->getYear()!==null){$parts[]='e.`expense_date` LIKE :year';$parameters[':year']=(string)$query->getYear().'-%';}
+        if($query->getYear()!==null){
+            if($query->getQuarter()===null){$parts[]='e.`expense_date` LIKE :year';$parameters[':year']=(string)$query->getYear().'-%';}
+            else{$month=($query->getQuarter()-1)*3+1;$parts[]='e.`expense_date` >= :period_start';$parts[]='e.`expense_date` < :period_end';$parameters[':period_start']=sprintf('%04d-%02d-01',$query->getYear(),$month);$parameters[':period_end']=$month===10?sprintf('%04d-01-01',$query->getYear()+1):sprintf('%04d-%02d-01',$query->getYear(),$month+3);}
+        }
         return['WHERE '.implode(' AND ',$parts),$parameters];
     }
 }

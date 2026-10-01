@@ -7,7 +7,6 @@
         <div class="admin-data-toolbar">
             <label class="admin-data-search"><span class="admin-visually-hidden">Uitgaven zoeken</span><i class="fas fa-search"></i><input type="search" name="q" value="<?=$h($query->getSearch())?>" placeholder="Zoek op titel, leverancier of referentie…" autocomplete="off"></label>
             <select name="category" aria-label="Filter op categorie"><?php foreach($categoryOptions as$value=>$label){?><option value="<?=$h($value)?>"<?=$query->getCategoryPublicId()===$value?' selected':''?>><?=$h($label)?></option><?php }?></select>
-            <select name="year" aria-label="Filter op jaar"><option value="">Alle jaren</option><?php foreach($years as$year){?><option value="<?=$h($year)?>"<?=$query->getYear()===$year?' selected':''?>><?=$h($year)?></option><?php }?></select>
             <button class="button button-secondary" type="button" data-admin-expense-reset><i class="fas fa-times"></i> Wissen</button>
         </div>
         <?php echo(new \Flexgrid\Html\Table\TableRenderer($table))->render(); ?>

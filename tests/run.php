@@ -6,5 +6,6 @@ require __DIR__ . '/CreateExpenseTest.php';
 require __DIR__ . '/UpdateExpenseTest.php';
 require __DIR__ . '/ExpenseListTest.php';
 require __DIR__ . '/ExpenseAttachmentTest.php';
+require __DIR__ . '/CreateFromBankTransactionTest.php';
 require __DIR__ . '/ExpenseUiContractTest.php';
 require __DIR__ . '/PersistenceMetadataTest.php';

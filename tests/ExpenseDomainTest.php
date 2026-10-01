@@ -29,7 +29,8 @@ adminExpenseAssert($payrollCategory->affectsResult(),'Echte loonkosten moeten he
 adminExpenseAssertThrows(InvalidArgumentException::class,function(){new ExpenseCategory('category-invalid',new TenantId('tenant-expense'),'prive','Privé','',true,ExpenseCategory::PRIVATE_WITHDRAWAL,100);},'Privéopname met aftrekbare btw moet worden geweigerd.');
 
 adminExpenseAssertThrows(InvalidArgumentException::class, function () { new ExpenseDate('2026-02-30'); }, 'Ongeldige kalenderdatum moet worden geweigerd.');
-adminExpenseAssertThrows(InvalidArgumentException::class, function () { new SupplierSnapshot('', '', '', '', '', 'NL'); }, 'Leveranciersnaam moet verplicht zijn.');
+adminExpenseAssert((new SupplierSnapshot(''))->getName() === '', 'Een uitgave mag geen leverancier hebben.');
+adminExpenseAssertThrows(InvalidArgumentException::class, function () { new SupplierSnapshot('', '', 'info@example.nl'); }, 'Leveranciersgegevens zonder naam moeten worden geweigerd.');
 adminExpenseAssertThrows(DomainException::class, function () use ($expense, $attachment) { $expense->addAttachment($attachment); }, 'Dubbele bijlage moet worden geweigerd.');
 adminExpenseAssertThrows(InvalidArgumentException::class, function () { new ExpenseAttachment('attachment-2', 'ref', 'bon.exe', 'ongeldig', 10, str_repeat('b', 64)); }, 'Ongeldig MIME-type moet worden geweigerd.');
 
